@@ -1,0 +1,45 @@
+/* VideoList.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.video-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+    max-height: 300px; /* Altura máxima para aproximadamente 5 elementos */
+    overflow-y: auto; /* Habilitar scroll vertical */
+}
+
+.video-list-item {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.video-list-item:hover {
+    background-color: #e0e0e0;
+}
+
+.video-list-item.selected {
+    background-color: #d0d0d0;
+    border-color: #999;
+}
+
+.video-player {
+    width: 100%;
+    max-width: 600px;
+}
+
+video {
+    width: 100%;
+    height: auto;
+}

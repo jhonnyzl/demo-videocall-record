@@ -5,22 +5,23 @@ const VideoList = () => {
     const [currentVideo, setCurrentVideo] = useState('');
     const videoRef = useRef(null);
 
-    useEffect(() => {
-        const fetchVideos = async () => {
-            try {
-                const response = await fetch('/api/testimonials-list');
-                if (!response.ok) {
-                    throw new Error('Error al obtener la lista de videos');
-                }
-                const videoList = await response.json();
-                setVideos(videoList);
-            } catch (error) {
-                console.error('Error al obtener la lista de videos:', error);
+    const fetchVideos = async () => {
+        try {
+            const response = await fetch('/api/testimonials-list');
+            if (!response.ok) {
+                throw new Error('Error al obtener la lista de videos');
             }
-        };
+            const videoList = await response.json();
+            console.log("videoList", videoList);
+            setVideos(videoList);
+        } catch (error) {
+            console.error('Error al obtener la lista de videos:', error);
+        }
+    };
 
+    useEffect(() => {
         fetchVideos();
-    }, []);
+    }, [fetchVideos]);
 
     useEffect(() => {
         if (videoRef.current) {

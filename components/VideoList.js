@@ -8,7 +8,11 @@ const VideoList = () => {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const response = await fetch('/api/testimonials-list');
+                const response = await fetch(`/api/testimonials-list?timestamp=${new Date().getTime()}`, {
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                    },
+                });
                 if (!response.ok) {
                     throw new Error('Error al obtener la lista de videos');
                 }

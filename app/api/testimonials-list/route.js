@@ -18,12 +18,6 @@ export async function GET(request) {
             }
         });
 
-        // console.log("BUNNY_STORAGE_URL", BUNNY_STORAGE_URL);
-        // console.log("BUNNY_API_KEY", BUNNY_API_KEY);
-
-        // console.log('Response status:', response.status);
-        // console.log('Response data:', response.data);
-
         if (response.status !== 200) {
             throw new Error('Error al obtener la lista de videos');
         }
@@ -37,7 +31,10 @@ export async function GET(request) {
 
         return new Response(JSON.stringify(videoList), {
             status: 200,
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-store', // Deshabilitar caché
+            },
         });
     } catch (error) {
         console.error('Error al obtener la lista de videos:', error.message);

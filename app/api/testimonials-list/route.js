@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 export async function GET(request) {
-    const directoryPath = path.join(process.cwd(), 'public', 'testimonials');
+    const directoryPath = '/tmp'; // Cambia la ruta a /tmp
     let videoList = [];
 
     try {

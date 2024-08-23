@@ -15,7 +15,7 @@ export async function POST(request) {
         const buffer = Buffer.from(bytes);
 
         // Guardar el archivo en el sistema de archivos
-        const filePath = path.join(process.cwd(), "public", "testimonials", file.name);
+        const filePath = path.join(process.cwd(), "/tmp", file.name);
         await writeFile(filePath, buffer);
         console.log(`open ${filePath} to see the uploaded file`);
 

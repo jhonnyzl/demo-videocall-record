@@ -33,7 +33,10 @@ export async function GET(request) {
             status: 200,
             headers: { 
                 'Content-Type': 'application/json',
-                'Cache-Control': 'no-store', // Deshabilitar caché
+                'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate', // Deshabilitar caché
+                'Pragma': 'no-cache',
+                'Expires': '0',
+                'Surrogate-Control': 'no-store'
             },
         });
     } catch (error) {

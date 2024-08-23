@@ -1,11 +1,14 @@
-import { writeFile, mkdir } from "fs/promises";
-import { NextRequest, NextResponse } from "next/server";
-import path from "path";
+import axios from 'axios';
+import { NextRequest, NextResponse } from 'next/server';
+
+const BUNNY_STORAGE_ZONE = process.env.BUNNY_STORAGE_ZONE;
+const BUNNY_API_KEY = process.env.BUNNY_API_KEY;
+const BUNNY_STORAGE_URL = `https://storage.bunnycdn.com/${BUNNY_STORAGE_ZONE}`;
 
 export async function POST(request) {
     try {
         const data = await request.formData();
-        const file = data.get("video"); // Asegúrate de que el nombre coincide con el del frontend
+        const file = data.get("video");
 
         if (!file) {
             return NextResponse.json({ success: false, error: "No file provided" });
@@ -14,16 +17,21 @@ export async function POST(request) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        // Asegurarse de que la carpeta /tmp existe
-        const tmpDir = path.join("/tmp");
-        await mkdir(tmpDir, { recursive: true });
+        const fileName = file.name;
+        const url = `${BUNNY_STORAGE_URL}/${fileName}`;
 
-        // Guardar el archivo en el sistema de archivos en la carpeta /tmp
-        const filePath = path.join(tmpDir, file.name);
-        await writeFile(filePath, buffer);
-        console.log(`open ${filePath} to see the uploaded file`);
+        const response = await axios.put(url, buffer, {
+            headers: {
+                'AccessKey': BUNNY_API_KEY,
+                'Content-Type': file.type,
+            }
+        });
 
-        return NextResponse.json({ success: true, filePath });
+        if (response.status === 201) {
+            return NextResponse.json({ success: true, message: 'File uploaded successfully', url });
+        } else {
+            throw new Error('Failed to upload file');
+        }
     } catch (error) {
         console.error("Error uploading file:", error);
         return NextResponse.json({ success: false, error: error.message });
